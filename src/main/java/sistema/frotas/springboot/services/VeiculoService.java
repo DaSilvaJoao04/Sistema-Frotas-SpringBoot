@@ -79,7 +79,7 @@ public class VeiculoService {
 
     // Consultas
 
-    public VeiculoResponse findByPlaca(String placa){
+    public VeiculoResponse buscarPelaPlaca(String placa){
 
         Veiculo veiculo = veiculoRepository.findByPlaca(placa)
                 .orElseThrow(() -> new ResourceNotFoundException("Veiculo não encontrado"));
@@ -88,7 +88,7 @@ public class VeiculoService {
 
     }
 
-    public List<VeiculoResponse> findByStatus(StatusVeiculo statusVeiculo){
+    public List<VeiculoResponse> buscarPorStatus(StatusVeiculo statusVeiculo){
 
         return  veiculoRepository.findByStatus(statusVeiculo).stream()
                 .map(veiculoMapper::toResponse)
@@ -96,7 +96,7 @@ public class VeiculoService {
 
     }
 
-    public List<VeiculoResponse> findByCombustivel(TipoCombustivel tipoCombustivel){
+    public List<VeiculoResponse> buscarPorCombustivel(TipoCombustivel tipoCombustivel){
 
         return  veiculoRepository.findByCombustivel(tipoCombustivel).stream()
                 .map(veiculoMapper::toResponse)
@@ -104,7 +104,7 @@ public class VeiculoService {
 
     }
 
-    public List<VeiculoResponse> findByMarca(String marca){
+    public List<VeiculoResponse> buscarPelaMarca(String marca){
 
         return  veiculoRepository.findByMarca(marca).stream()
                 .map(veiculoMapper::toResponse)
@@ -112,7 +112,7 @@ public class VeiculoService {
 
     }
 
-    public List<VeiculoResponse> findByAnoFabricacao(Integer ano){
+    public List<VeiculoResponse> buscarPorAnoFabricacao(Integer ano){
 
         return  veiculoRepository.findByAnoFabricacao(ano).stream()
                 .map(veiculoMapper::toResponse)
@@ -123,7 +123,7 @@ public class VeiculoService {
 
     // Consultas Aprimoradas
 
-    public List<VeiculoResponse> findByStatusAndCombustivel (StatusVeiculo statusVeiculo, TipoCombustivel tipoCombustivel){
+    public List<VeiculoResponse> buscarPorStatusECombustivel (StatusVeiculo statusVeiculo, TipoCombustivel tipoCombustivel){
         return  veiculoRepository.findByStatusAndCombustivel(statusVeiculo, tipoCombustivel).stream()
                 .map(veiculoMapper::toResponse)
                 .toList();
@@ -131,7 +131,7 @@ public class VeiculoService {
 
     }
 
-    public List<VeiculoResponse> findByAnoFabricacaoGreaterThanEqual(Integer ano){
+    public List<VeiculoResponse> buscarPorAnoFabricacaoGreaterThanEqual(Integer ano){
 
         return veiculoRepository.findByAnoFabricacaoGreaterThanEqual(ano).stream()
                 .map(veiculoMapper::toResponse)
@@ -139,7 +139,7 @@ public class VeiculoService {
 
     }
 
-    public List<VeiculoResponse> findByQuilometragemAtualGreaterThan(Long quilometragem){
+    public List<VeiculoResponse> buscarPorQuilometragemlGreaterThan(Long quilometragem){
 
         return  veiculoRepository.findByQuilometragemAtualGreaterThan(quilometragem).stream()
                 .map(veiculoMapper::toResponse)

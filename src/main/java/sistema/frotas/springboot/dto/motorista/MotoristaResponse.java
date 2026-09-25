@@ -1,6 +1,7 @@
 package sistema.frotas.springboot.dto.motorista;
 
 
+import sistema.frotas.springboot.enums.CategoriaCNH;
 import sistema.frotas.springboot.enums.StatusMotorista;
 
 import java.time.LocalDate;
@@ -11,7 +12,7 @@ public record MotoristaResponse(
         String nomeCompleto,
         String cpf,
         String numeroCNH,
-        String categoria,
+        CategoriaCNH categoria,
         LocalDate dataNascimento,
         LocalDate dataValidadeCNH,
         String telefone,

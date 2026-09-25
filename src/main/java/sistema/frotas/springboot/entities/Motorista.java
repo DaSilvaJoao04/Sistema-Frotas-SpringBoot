@@ -2,6 +2,7 @@ package sistema.frotas.springboot.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import sistema.frotas.springboot.enums.CategoriaCNH;
 import sistema.frotas.springboot.enums.StatusMotorista;
 
 import java.time.LocalDate;
@@ -28,8 +29,9 @@ public class Motorista {
     @Column(nullable = false, unique = true)
     private String numeroCNH;
 
-    @Column
-    private String categoria;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CategoriaCNH categoria;
 
     @Column
     private LocalDate dataNascimento;

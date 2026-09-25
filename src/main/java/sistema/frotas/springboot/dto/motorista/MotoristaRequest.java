@@ -2,6 +2,7 @@ package sistema.frotas.springboot.dto.motorista;
 
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CPF;
+import sistema.frotas.springboot.enums.CategoriaCNH;
 import sistema.frotas.springboot.enums.StatusMotorista;
 
 import java.time.LocalDate;
@@ -18,12 +19,16 @@ public record MotoristaRequest(
         @NotBlank
         String numeroCNH,
 
-        @NotBlank
-        String categoria,
+        @NotNull
+        CategoriaCNH categoria,
 
         @NotNull
         @Past
         LocalDate dataNascimento,
+
+        @NotNull
+        @Future
+        LocalDate dataValidadeCNH,
 
         @NotBlank
         @Size(min = 10, max = 11)
