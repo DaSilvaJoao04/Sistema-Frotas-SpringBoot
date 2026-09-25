@@ -32,7 +32,7 @@ public class ManutencaoService {
     public ManutencaoResponse buscarPorId(Long id){
 
         Manutencao manutencao = manutencaoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Manutenção não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Manutenção não encontrada"));
 
         return manutencaoMapper.toResponse(manutencao);
 
@@ -71,7 +71,7 @@ public class ManutencaoService {
     public ManutencaoResponse encerrarManutencao(Long id, ManutencaoRequest manutencaoRequest){
 
             Manutencao manutencao = manutencaoRepository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("Manutenção não encontrada"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Erro: Manutenção não encontrada"));
 
             manutencao.setDataConclusao(manutencaoRequest.dataConclusao());
             manutencao.setQuilometragem(manutencaoRequest.quilometragem());
@@ -89,7 +89,7 @@ public class ManutencaoService {
     public ManutencaoResponse cancelarManutencao (Long id){
 
         Manutencao manutencao = manutencaoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Manutenção não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Manutenção não encontrada"));
 
 
 

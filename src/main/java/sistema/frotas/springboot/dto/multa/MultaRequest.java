@@ -25,10 +25,8 @@ public record MultaRequest(
         @NotNull
         LocalDate dataVencimento,
 
-        LocalDate dataPagamento,
+        LocalDate dataPagamento
 
-        @NotNull
-        StatusMulta status
 
 
 

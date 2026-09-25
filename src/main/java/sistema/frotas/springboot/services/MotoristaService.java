@@ -32,7 +32,7 @@ public class MotoristaService {
     public MotoristaResponse buscarMotoristaPorId(Long id){
 
         Motorista motorista = motoristaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Motorista não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Motorista não encontrado"));
 
         return motoristaMapper.toResponse(motorista);
 
@@ -52,7 +52,7 @@ public class MotoristaService {
     public MotoristaResponse atualizarMotorista(Long id, MotoristaRequest motoristaRequest){
 
         Motorista motorista = motoristaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Motorista não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Motorista não encontrado"));
 
         motorista.setNomeCompleto(motoristaRequest.nomeCompleto());
         motorista.setCategoria(motoristaRequest.categoria());
@@ -68,7 +68,7 @@ public class MotoristaService {
     public void inativarMotorista(Long id ){
 
         Motorista motorista = motoristaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Motorista não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Motorista não encontrado"));
 
         motorista.setStatus(StatusMotorista.INATIVO);
 
@@ -79,7 +79,7 @@ public class MotoristaService {
     public void afastarMotorista(Long id){
 
         Motorista motorista = motoristaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Motorista não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Motorista não encontrado"));
 
         motorista.setStatus(StatusMotorista.AFASTADO);
 

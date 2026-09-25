@@ -33,7 +33,7 @@ public class VeiculoService {
 
     public VeiculoResponse findById(Long id){
        Veiculo veiculo = veiculoRepository.findById(id)
-               .orElseThrow(() -> new ResourceNotFoundException("Veiculo não encontrado"));
+               .orElseThrow(() -> new ResourceNotFoundException("Erro: Veiculo não encontrado"));
 
         return veiculoMapper.toResponse(veiculo);
     }
@@ -52,7 +52,7 @@ public class VeiculoService {
     public VeiculoResponse atualizarVeiculo(Long id, VeiculoAtualizacaoRequest request){
 
         Veiculo veiculo = veiculoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Veiculo não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Veiculo não encontrado"));
 
         veiculo.setQuilometragemAtual(request.quilometragemAtual());
         veiculo.setStatus(request.status());
@@ -67,7 +67,7 @@ public class VeiculoService {
     public void inativarVeiculo (Long id){
 
         Veiculo veiculo = veiculoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Veiculo não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Veiculo não encontrado"));
 
         veiculo.setStatus(StatusVeiculo.INATIVO);
 
@@ -82,7 +82,7 @@ public class VeiculoService {
     public VeiculoResponse buscarPelaPlaca(String placa){
 
         Veiculo veiculo = veiculoRepository.findByPlaca(placa)
-                .orElseThrow(() -> new ResourceNotFoundException("Veiculo não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Veiculo não encontrado"));
 
         return veiculoMapper.toResponse(veiculo);
 
