@@ -1,4 +1,7 @@
 package sistema.frotas.springboot.repositories;
 
-public interface ManutencaoRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import sistema.frotas.springboot.entities.Manutencao;
+
+public interface ManutencaoRepository extends JpaRepository<Manutencao, Long> {
 }

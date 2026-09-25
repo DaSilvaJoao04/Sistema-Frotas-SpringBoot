@@ -1,4 +1,7 @@
 package sistema.frotas.springboot.repositories;
 
-public class MultaRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import sistema.frotas.springboot.entities.Multa;
+
+public interface MultaRepository extends JpaRepository<Multa, Long> {
 }

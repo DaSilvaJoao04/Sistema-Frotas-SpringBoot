@@ -1,4 +1,7 @@
 package sistema.frotas.springboot.repositories;
 
-public interface ViagemRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import sistema.frotas.springboot.entities.Viagem;
+
+public interface ViagemRepository extends JpaRepository<Viagem, Long> {
 }

@@ -1,4 +1,7 @@
 package sistema.frotas.springboot.repositories;
 
-public interface DocumentoVeiculoRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import sistema.frotas.springboot.entities.DocumentoVeiculo;
+
+public interface DocumentoVeiculoRepository extends JpaRepository<DocumentoVeiculo, Long> {
 }
