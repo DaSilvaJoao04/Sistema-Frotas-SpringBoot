@@ -64,16 +64,15 @@ public class VeiculoService {
 
     }
 
-    public VeiculoResponse inativarVeiculo (Long id){
+    public void  inativarVeiculo (Long id){
 
         Veiculo veiculo = veiculoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Erro: Veiculo não encontrado"));
 
         veiculo.setStatus(StatusVeiculo.INATIVO);
 
-        Veiculo veiculoInativo = veiculoRepository.save(veiculo);
+        veiculoRepository.save(veiculo);
 
-        return veiculoMapper.toResponse(veiculoInativo);
 
     }
 

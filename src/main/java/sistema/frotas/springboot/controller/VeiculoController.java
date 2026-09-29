@@ -53,8 +53,10 @@ public class VeiculoController {
     }
 
     @PatchMapping("/{id}/inativar")
-    public VeiculoResponse inativarVeiculo(@PathVariable Long id){
-        return veiculoService.inativarVeiculo(id);
+    public ResponseEntity<Void> inativarVeiculo(@PathVariable Long id){
+        veiculoService.inativarVeiculo(id);
+
+        return ResponseEntity.noContent().build();
 
 
     }
