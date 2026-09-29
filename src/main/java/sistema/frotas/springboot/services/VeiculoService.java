@@ -31,7 +31,7 @@ public class VeiculoService {
                    .toList();
     }
 
-    public VeiculoResponse findById(Long id){
+    public VeiculoResponse buscarPorId(Long id){
        Veiculo veiculo = veiculoRepository.findById(id)
                .orElseThrow(() -> new ResourceNotFoundException("Erro: Veiculo não encontrado"));
 
@@ -64,14 +64,16 @@ public class VeiculoService {
 
     }
 
-    public void inativarVeiculo (Long id){
+    public VeiculoResponse inativarVeiculo (Long id){
 
         Veiculo veiculo = veiculoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Erro: Veiculo não encontrado"));
 
         veiculo.setStatus(StatusVeiculo.INATIVO);
 
-        veiculoRepository.save(veiculo);
+        Veiculo veiculoInativo = veiculoRepository.save(veiculo);
+
+        return veiculoMapper.toResponse(veiculoInativo);
 
     }
 
@@ -139,7 +141,7 @@ public class VeiculoService {
 
     }
 
-    public List<VeiculoResponse> buscarPorQuilometragemlGreaterThan(Long quilometragem){
+    public List<VeiculoResponse> buscarPorQuilometragemGreaterThan(Long quilometragem){
 
         return  veiculoRepository.findByQuilometragemAtualGreaterThan(quilometragem).stream()
                 .map(veiculoMapper::toResponse)
