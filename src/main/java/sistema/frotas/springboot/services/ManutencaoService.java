@@ -2,6 +2,7 @@ package sistema.frotas.springboot.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import sistema.frotas.springboot.dto.manutencao.FinalizarManutencaoRequest;
 import sistema.frotas.springboot.dto.manutencao.ManutencaoRequest;
 import sistema.frotas.springboot.dto.manutencao.ManutencaoResponse;
 import sistema.frotas.springboot.entities.Manutencao;
@@ -56,9 +57,9 @@ public class ManutencaoService {
     }
 
 
-    public ManutencaoResponse iniciarManutencao(ManutencaoRequest manutencaoRequest){
+    public ManutencaoResponse iniciarManutencao(ManutencaoRequest request){
 
-        Manutencao manutencao = manutencaoMapper.toEntity(manutencaoRequest);
+        Manutencao manutencao = manutencaoMapper.toEntity(request);
 
         manutencao.setStatus(StatusManutencao.EM_ANDAMENTO);
 
@@ -68,14 +69,14 @@ public class ManutencaoService {
 
     }
 
-    public ManutencaoResponse encerrarManutencao(Long id, ManutencaoRequest manutencaoRequest){
+    public ManutencaoResponse encerrarManutencao(Long id, FinalizarManutencaoRequest request){
 
             Manutencao manutencao = manutencaoRepository.findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException("Erro: Manutenção não encontrada"));
 
-            manutencao.setDataConclusao(manutencaoRequest.dataConclusao());
-            manutencao.setQuilometragem(manutencaoRequest.quilometragem());
-            manutencao.setCusto(manutencaoRequest.custo());
+            manutencao.setDataConclusao(request.dataConclusao());
+            manutencao.setQuilometragem(request.quilometragem());
+            manutencao.setCusto(request.custo());
 
             manutencao.setStatus(StatusManutencao.CONCLUIDA);
 

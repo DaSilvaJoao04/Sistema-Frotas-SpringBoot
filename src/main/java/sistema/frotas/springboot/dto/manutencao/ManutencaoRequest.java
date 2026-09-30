@@ -2,6 +2,7 @@ package sistema.frotas.springboot.dto.manutencao;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import sistema.frotas.springboot.enums.StatusManutencao;
 import sistema.frotas.springboot.enums.TipoManutencao;
 
@@ -25,7 +26,7 @@ public record ManutencaoRequest(
         LocalDate dataConclusao,
 
         @NotNull
-        @Positive
+        @PositiveOrZero
         Long quilometragem,
 
         @NotNull
