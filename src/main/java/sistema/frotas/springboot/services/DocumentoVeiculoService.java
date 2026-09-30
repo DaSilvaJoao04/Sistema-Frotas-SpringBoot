@@ -3,6 +3,7 @@ package sistema.frotas.springboot.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import sistema.frotas.springboot.dto.documentoVeiculo.AtualizarDocumentoRequest;
 import sistema.frotas.springboot.dto.documentoVeiculo.DocumentoVeiculoRequest;
 import sistema.frotas.springboot.dto.documentoVeiculo.DocumentoVeiculoResponse;
 import sistema.frotas.springboot.entities.DocumentoVeiculo;
@@ -55,13 +56,13 @@ public class DocumentoVeiculoService {
     }
 
 
-    public DocumentoVeiculoResponse atualizarDocumento(Long id, LocalDate dataValidade){
+    public DocumentoVeiculoResponse atualizarDocumento(Long id, AtualizarDocumentoRequest request){
 
         DocumentoVeiculo documentoVeiculo = documentoVeiculoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Erro: Documento não localizado"));
 
 
-        documentoVeiculo.setDataValidade(dataValidade);
+        documentoVeiculo.setDataValidade(request.dataValidade());
 
         DocumentoVeiculo documentoAtualizado = documentoVeiculoRepository.save(documentoVeiculo);
 
