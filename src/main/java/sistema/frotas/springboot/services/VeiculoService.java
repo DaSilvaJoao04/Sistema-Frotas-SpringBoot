@@ -13,6 +13,7 @@ import sistema.frotas.springboot.exceptions.ResourceNotFoundException;
 import sistema.frotas.springboot.mapper.VeiculoMapper;
 import sistema.frotas.springboot.repositories.VeiculoRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -23,7 +24,7 @@ public class VeiculoService {
     private final VeiculoRepository veiculoRepository;
     private final VeiculoMapper veiculoMapper;
 
-    // Basicos
+
     public List<VeiculoResponse> findAll () {
 
         return veiculoRepository.findAll().stream()
@@ -33,14 +34,27 @@ public class VeiculoService {
 
     public VeiculoResponse buscarPorId(Long id){
        Veiculo veiculo = veiculoRepository.findById(id)
-               .orElseThrow(() -> new ResourceNotFoundException("Erro: Veiculo não encontrado"));
+               .orElseThrow(() -> new ResourceNotFoundException("Erro: Veiculo não encontrado com ID:" + id));
 
         return veiculoMapper.toResponse(veiculo);
     }
 
+
     public VeiculoResponse criarVeiculo(VeiculoRequest request){
 
+        if (veiculoRepository.existsByPlaca(request.placa())){
+            throw new IllegalArgumentException
+                    ("Erro: Já existe um veículo cadastrado com a placa:" + request.placa());
+        }
+
+
+        Integer anoAtual = LocalDate.now().getYear();
+
         Veiculo veiculo = veiculoMapper.toEntity(request);
+
+        if (veiculo.getAnoFabricacao() > anoAtual){
+            throw new IllegalArgumentException("Erro: Ano de fabricação não pode ser futuro");
+        }
 
         Veiculo veiculoSalvo = veiculoRepository.save(veiculo);
 
@@ -52,7 +66,16 @@ public class VeiculoService {
     public VeiculoResponse atualizarVeiculo(Long id, VeiculoAtualizacaoRequest request){
 
         Veiculo veiculo = veiculoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Erro: Veiculo não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Veiculo não encontrado com ID:" + id));
+
+        if (veiculo.getStatus().equals(StatusVeiculo.INATIVO)){
+            throw new IllegalStateException("Erro: Este veículo está inativo");
+        }
+
+        if (veiculo.getQuilometragemAtual().compareTo(request.quilometragemAtual()) >= 0){
+            throw new IllegalArgumentException("Erro: A quilometragem não pode ser menor ou igual a atual");
+
+        }
 
         veiculo.setQuilometragemAtual(request.quilometragemAtual());
         veiculo.setStatus(request.status());
@@ -67,7 +90,12 @@ public class VeiculoService {
     public void  inativarVeiculo (Long id){
 
         Veiculo veiculo = veiculoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Erro: Veiculo não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Veiculo não encontrado com ID:" + id));
+
+
+        if (veiculo.getStatus().equals(StatusVeiculo.INATIVO)){
+            throw new IllegalStateException("Erro: Veículo já está inativo");
+        }
 
         veiculo.setStatus(StatusVeiculo.INATIVO);
 
@@ -77,13 +105,10 @@ public class VeiculoService {
     }
 
 
-
-    // Consultas
-
     public VeiculoResponse buscarPelaPlaca(String placa){
 
         Veiculo veiculo = veiculoRepository.findByPlaca(placa)
-                .orElseThrow(() -> new ResourceNotFoundException("Erro: Veiculo não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Veiculo não encontrado:" + placa));
 
         return veiculoMapper.toResponse(veiculo);
 
@@ -107,7 +132,7 @@ public class VeiculoService {
 
     public List<VeiculoResponse> buscarPelaMarca(String marca){
 
-        return  veiculoRepository.findByMarca(marca).stream()
+        return  veiculoRepository.findByMarcaContainingIgnoreCase(marca).stream()
                 .map(veiculoMapper::toResponse)
                 .toList();
 
@@ -122,7 +147,6 @@ public class VeiculoService {
     }
 
 
-    // Consultas Aprimoradas
 
     public List<VeiculoResponse> buscarPorStatusECombustivel (StatusVeiculo statusVeiculo, TipoCombustivel tipoCombustivel){
         return  veiculoRepository.findByStatusAndCombustivel(statusVeiculo, tipoCombustivel).stream()
