@@ -28,6 +28,27 @@ public class MotoristaController {
 
     }
 
+    @GetMapping("/{id}")
+    public MotoristaResponse buscarPorId(@PathVariable Long id){
+        return motoristaService.buscarMotoristaPorId(id);
+
+    }
+
+    @GetMapping("/status/{status}")
+    public List<MotoristaResponse> buscarPorStatus(@PathVariable StatusMotorista status){
+
+        return motoristaService.buscarMotoristaPorStatus(status);
+
+    }
+
+    @GetMapping("/categoria/{categoria}")
+    public List<MotoristaResponse> buscarPorCategoria(@PathVariable CategoriaCNH categoria){
+
+        return motoristaService.buscarMotoristaPorCategoria(categoria);
+
+    }
+
+
     @PostMapping
     public ResponseEntity<MotoristaResponse> criarMotorista
             (@Valid @RequestBody MotoristaRequest request){
@@ -38,12 +59,10 @@ public class MotoristaController {
 
     }
 
-    @GetMapping("/{id}")
-    public MotoristaResponse buscarPorId(@PathVariable Long id){
-        return motoristaService.buscarMotoristaPorId(id);
-    }
 
-    @PutMapping("/{id}")
+
+
+    @PatchMapping("/{id}")
     public MotoristaResponse atualizarMotorista
             (@PathVariable Long id,
             @Valid @RequestBody MotoristaRequest request){
@@ -51,6 +70,7 @@ public class MotoristaController {
         return motoristaService.atualizarMotorista(id, request);
 
     }
+
 
     @PatchMapping("/{id}/inativar")
     public ResponseEntity<Void> inativarMotorista(@PathVariable Long id){
@@ -70,19 +90,6 @@ public class MotoristaController {
 
     }
 
-    @GetMapping("/status/{status}")
-    public List<MotoristaResponse> buscarPorStatus(@PathVariable StatusMotorista status){
-
-        return motoristaService.buscarMotoristaPorStatus(status);
-
-    }
-
-    @GetMapping("/categoria/{categoria}")
-    public List<MotoristaResponse> buscarPorCategoria(@PathVariable CategoriaCNH categoria){
-
-        return motoristaService.buscarMotoristaPorCategoria(categoria);
-
-    }
 
 
 

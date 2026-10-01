@@ -32,16 +32,24 @@ public class MotoristaService {
     public MotoristaResponse buscarMotoristaPorId(Long id){
 
         Motorista motorista = motoristaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Erro: Motorista não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Motorista não encontrado com ID:" + id));
 
         return motoristaMapper.toResponse(motorista);
 
     }
 
 
-    public MotoristaResponse criarMotorista(MotoristaRequest motoristaRequest){
+    public MotoristaResponse criarMotorista(MotoristaRequest request){
 
-        Motorista motorista = motoristaMapper.toEntity(motoristaRequest);
+        if (motoristaRepository.existsByCPF(request.cpf())){
+            throw new IllegalArgumentException("Erro: Esse CPF já está vinculado há um motorista");
+        }
+
+        if (motoristaRepository.existsByCNH(request.numeroCNH())){
+            throw new IllegalArgumentException("Erro: Essa CNH já está vinculada há um motorista");
+        }
+
+        Motorista motorista = motoristaMapper.toEntity(request);
 
         Motorista motoristaSalvo = motoristaRepository.save(motorista);
 
@@ -52,7 +60,12 @@ public class MotoristaService {
     public MotoristaResponse atualizarMotorista(Long id, MotoristaRequest motoristaRequest){
 
         Motorista motorista = motoristaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Erro: Motorista não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Motorista não encontrado com ID: " + id));
+
+        if (motorista.getStatus().equals(StatusMotorista.INATIVO)){
+            throw new IllegalStateException("Erro: Motorista está inativo");
+
+        }
 
         motorista.setNomeCompleto(motoristaRequest.nomeCompleto());
         motorista.setCategoria(motoristaRequest.categoria());
@@ -68,7 +81,12 @@ public class MotoristaService {
     public void inativarMotorista(Long id ){
 
         Motorista motorista = motoristaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Erro: Motorista não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Motorista não encontrado com ID:" + id));
+
+        if (motorista.getStatus().equals(StatusMotorista.INATIVO)){
+            throw new IllegalStateException("Erro: Motorista já está inativo");
+
+        }
 
         motorista.setStatus(StatusMotorista.INATIVO);
 
@@ -79,7 +97,17 @@ public class MotoristaService {
     public void afastarMotorista(Long id){
 
         Motorista motorista = motoristaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Erro: Motorista não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Motorista não encontrado com ID: " + id));
+
+        if (motorista.getStatus().equals(StatusMotorista.AFASTADO)){
+            throw new IllegalStateException("Erro: Motorista já está afastado");
+
+        }
+
+        if (motorista.getStatus().equals(StatusMotorista.INATIVO)){
+            throw new IllegalStateException("Erro: Motorista está inativo");
+
+        }
 
         motorista.setStatus(StatusMotorista.AFASTADO);
 

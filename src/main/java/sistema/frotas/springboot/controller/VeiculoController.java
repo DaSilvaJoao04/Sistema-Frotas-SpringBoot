@@ -29,35 +29,9 @@ public class VeiculoController {
 
     }
 
-    @PostMapping
-    public ResponseEntity<VeiculoResponse> criarVeiculo(@Valid @RequestBody VeiculoRequest request){
-
-        VeiculoResponse response = veiculoService.criarVeiculo(request);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
     @GetMapping("/{id}")
     public VeiculoResponse buscarPorId(@PathVariable Long id){
         return veiculoService.buscarPorId(id);
-
-    }
-
-    @PutMapping("/{id}")
-    public VeiculoResponse atualizarVeiculo
-            (@PathVariable Long id,
-             @Valid @RequestBody VeiculoAtualizacaoRequest request){
-
-        return veiculoService.atualizarVeiculo(id, request);
-
-    }
-
-    @PatchMapping("/{id}/inativar")
-    public ResponseEntity<Void> inativarVeiculo(@PathVariable Long id){
-        veiculoService.inativarVeiculo(id);
-
-        return ResponseEntity.noContent().build();
-
 
     }
 
@@ -87,6 +61,7 @@ public class VeiculoController {
     @GetMapping("/ano/{ano}")
     public List<VeiculoResponse> buscarPorAno(@PathVariable Integer ano){
         return veiculoService.buscarPorAnoFabricacao(ano);
+
     }
 
     @GetMapping("/filtro")
@@ -96,12 +71,12 @@ public class VeiculoController {
 
         return veiculoService.buscarPorStatusECombustivel(status, combustivel);
 
-
     }
 
     @GetMapping("/ano-a-partir-de")
     public List<VeiculoResponse> filtrarPorAno(@RequestParam Integer ano){
         return veiculoService.buscarPorAnoFabricacaoGreaterThanEqual(ano);
+
     }
 
     @GetMapping("/quilometragem-maior-que")
@@ -109,5 +84,48 @@ public class VeiculoController {
         return veiculoService.buscarPorQuilometragemGreaterThan(quilometragem);
 
     }
+
+
+
+
+    @PostMapping
+    public ResponseEntity<VeiculoResponse> criarVeiculo(@Valid @RequestBody VeiculoRequest request){
+
+        VeiculoResponse response = veiculoService.criarVeiculo(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+
+
+
+    @PatchMapping("/{id}")
+    public VeiculoResponse atualizarVeiculo
+            (@PathVariable Long id,
+             @Valid @RequestBody VeiculoAtualizacaoRequest request){
+
+        return veiculoService.atualizarVeiculo(id, request);
+
+    }
+
+
+
+
+    @PatchMapping("/{id}/inativar")
+    public ResponseEntity<Void> inativarVeiculo(@PathVariable Long id){
+        veiculoService.inativarVeiculo(id);
+
+        return ResponseEntity.noContent().build();
+
+
+    }
+
+
+
+
+
+
+
+
 
 }
