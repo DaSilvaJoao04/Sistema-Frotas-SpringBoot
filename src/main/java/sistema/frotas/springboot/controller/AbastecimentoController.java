@@ -28,15 +28,6 @@ public class AbastecimentoController {
 
     }
 
-    @PostMapping
-    public ResponseEntity<AbastecimentoResponse> abastecerVeiculo(@Valid @RequestBody  AbastecimentoRequest request){
-
-        AbastecimentoResponse response = abastecimentoService.abastecerVeiculo(request);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-
-    }
-
     @GetMapping("/{id}")
     public AbastecimentoResponse buscarPorId(@PathVariable Long id){
         return abastecimentoService.buscarAbastecimentoPorId(id);
@@ -58,6 +49,17 @@ public class AbastecimentoController {
     @GetMapping("/combustivel/{tipoCombustivel}")
     public List<AbastecimentoResponse> buscarPorTipoCombustivel (@PathVariable TipoCombustivel tipoCombustivel){
         return abastecimentoService.buscarPorTipoCombustivel(tipoCombustivel);
+
+    }
+
+
+
+    @PostMapping
+    public ResponseEntity<AbastecimentoResponse> abastecerVeiculo(@Valid @RequestBody  AbastecimentoRequest request){
+
+        AbastecimentoResponse response = abastecimentoService.abastecerVeiculo(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
     }
 
