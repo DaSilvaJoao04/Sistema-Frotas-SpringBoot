@@ -19,5 +19,4 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
     List<Veiculo> findByStatusAndCombustivel(StatusVeiculo statusVeiculo, TipoCombustivel combustivel);
     List<Veiculo> findByAnoFabricacaoGreaterThanEqual(Integer ano);
     List<Veiculo> findByQuilometragemAtualGreaterThan(Long quilometragem);
-
 }

@@ -13,6 +13,4 @@ public interface MotoristaRepository extends JpaRepository <Motorista, Long>{
     List<Motorista> findMotoristaByCategoria(CategoriaCNH categoria);
     Boolean existsByCNH (String numeroCNH);
     Boolean existsByCPF (String cpf);
-
-
 }

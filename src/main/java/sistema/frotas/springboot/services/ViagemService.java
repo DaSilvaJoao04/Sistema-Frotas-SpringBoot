@@ -1,6 +1,7 @@
 package sistema.frotas.springboot.services;
 
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sistema.frotas.springboot.dto.viagem.FinalizarViagemRequest;
@@ -30,15 +31,15 @@ public class ViagemService {
 
     private final MotoristaRepository motoristaRepository;
 
-
+    @Transactional
     public ViagemResponse criarViagem(ViagemRequest request){
 
         Veiculo veiculo = veiculoRepository.findById(request.veiculoId())
-                .orElseThrow(() -> new ResourceNotFoundException("Erro: Veículo não localizado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Veículo não localizado com ID:" + request.veiculoId()));
 
 
         Motorista motorista = motoristaRepository.findById(request.motoristaId())
-                .orElseThrow(() -> new ResourceNotFoundException("Erro: Motorista não localizado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Motorista não localizado com ID:" + request.motoristaId()));
 
 
         if (veiculo.getStatus() != StatusVeiculo.DISPONIVEL) {
@@ -47,7 +48,7 @@ public class ViagemService {
         }
 
         if (motorista.getStatus() != StatusMotorista.ATIVO) {
-            throw new IllegalStateException("Motorista não está disponivel");
+            throw new IllegalStateException("Motorista não está ativo");
 
         }
 
@@ -60,9 +61,9 @@ public class ViagemService {
 
         veiculoRepository.save(veiculo);
 
-        Viagem iniciarViagem = viagemRepository.save(viagem);
+        Viagem viagemSalva = viagemRepository.save(viagem);
 
-        return  viagemMapper.toResponse(iniciarViagem);
+        return  viagemMapper.toResponse(viagemSalva);
 
 
     }
@@ -80,7 +81,7 @@ public class ViagemService {
     public ViagemResponse buscarViagemPorId(Long id){
 
         Viagem viagem = viagemRepository.findById(id).
-                orElseThrow(() -> new ResourceNotFoundException("Erro: Viagem não localizada"));
+                orElseThrow(() -> new ResourceNotFoundException("Erro: Viagem não localizada com ID:" + id));
 
         return viagemMapper.toResponse(viagem);
 
@@ -88,6 +89,10 @@ public class ViagemService {
 
 
     public List<ViagemResponse> buscarViagemPorVeiculo(Long veiculoId){
+
+        if (!veiculoRepository.existsById(veiculoId)){
+            throw new ResourceNotFoundException("Erro: Veiculo não localizado com ID:" + veiculoId);
+        }
 
         return viagemRepository.findByVeiculoId(veiculoId).stream()
                 .map(viagemMapper::toResponse)
@@ -97,23 +102,28 @@ public class ViagemService {
 
     public List<ViagemResponse> buscarViagemPorMotorista(Long motoristaId){
 
+        if (!motoristaRepository.existsById(motoristaId)){
+            throw new ResourceNotFoundException("Erro: Motorista não localizado com ID:" + motoristaId);
+        }
+
         return viagemRepository.findByMotoristaId(motoristaId).stream()
                 .map(viagemMapper::toResponse)
                 .toList();
 
     }
 
+    @Transactional
     public ViagemResponse finalizarViagem(Long id, FinalizarViagemRequest request){
 
         Viagem viagem = viagemRepository.findById(id).
-                orElseThrow(() -> new ResourceNotFoundException("Erro: Viagem não localizada"));
+                orElseThrow(() -> new ResourceNotFoundException("Erro: Viagem não localizada com ID:" + id));
 
 
         if (viagem.getDataChegada() != null){
             throw new IllegalStateException("Erro: Viagem já foi finalizada");
         }
 
-        if (request.kmFinal() < viagem.getKmInicial()) {
+        if (request.kmFinal().compareTo(viagem.getKmInicial()) < 0) {
             throw new IllegalArgumentException("Quilometragem final não pode ser menor que a inicial");
         }
 
