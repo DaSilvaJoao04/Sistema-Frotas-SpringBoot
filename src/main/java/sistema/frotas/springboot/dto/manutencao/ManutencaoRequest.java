@@ -18,20 +18,8 @@ public record ManutencaoRequest(
         TipoManutencao tipo,
 
         @NotNull
-        StatusManutencao status,
+        LocalDate dataEntrada
 
-        @NotNull
-        LocalDate dataEntrada,
-
-        LocalDate dataConclusao,
-
-        @NotNull
-        @PositiveOrZero
-        Long quilometragem,
-
-        @NotNull
-        @Positive
-        BigDecimal custo
 )
 
 {}

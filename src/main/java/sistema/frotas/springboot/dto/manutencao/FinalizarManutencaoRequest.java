@@ -3,6 +3,7 @@ package sistema.frotas.springboot.dto.manutencao;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import sistema.frotas.springboot.enums.StatusManutencao;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public record FinalizarManutencaoRequest(
         @NotNull
         @PositiveOrZero
         Long quilometragem
+
 )
 
 {}

@@ -28,15 +28,6 @@ public class ManutencaoController {
         return manutencaoService.buscarTodasManutencoes();
     }
 
-    @PostMapping
-    public ResponseEntity<ManutencaoResponse> iniciarManutencao(@Valid @RequestBody ManutencaoRequest request){
-
-        ManutencaoResponse response = manutencaoService.iniciarManutencao(request);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
-
     @GetMapping("/{id}")
     public ManutencaoResponse buscarPorId(@PathVariable Long id){
 
@@ -62,14 +53,25 @@ public class ManutencaoController {
         return manutencaoService.buscarPorPlacaETipo(placa, tipoManutencao);
     }
 
-    @PutMapping("/{id}")
+
+    @PostMapping
+    public ResponseEntity<ManutencaoResponse> iniciarManutencao(@Valid @RequestBody ManutencaoRequest request){
+
+        ManutencaoResponse response = manutencaoService.iniciarManutencao(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+
+
+    @PatchMapping("/{id}/encerrar")
     public ManutencaoResponse encerrarManutencao(@PathVariable Long id,
                                                  @Valid @RequestBody FinalizarManutencaoRequest request){
         return manutencaoService.encerrarManutencao(id, request);
 
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}/cancelar")
     public ManutencaoResponse cancelarManutencao(@PathVariable Long id){
         return manutencaoService.cancelarManutencao(id);
 
