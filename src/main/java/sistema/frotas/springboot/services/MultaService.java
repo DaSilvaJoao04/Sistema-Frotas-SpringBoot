@@ -6,12 +6,16 @@ import sistema.frotas.springboot.dto.multa.MultaRequest;
 import sistema.frotas.springboot.dto.multa.MultaResponse;
 import sistema.frotas.springboot.dto.multa.PagarMultaRequest;
 import sistema.frotas.springboot.entities.Multa;
+import sistema.frotas.springboot.entities.Veiculo;
 import sistema.frotas.springboot.enums.StatusMulta;
+import sistema.frotas.springboot.enums.StatusVeiculo;
 import sistema.frotas.springboot.exceptions.ResourceNotFoundException;
 import sistema.frotas.springboot.mapper.MultaMapper;
 import sistema.frotas.springboot.repositories.MultaRepository;
+import sistema.frotas.springboot.repositories.VeiculoRepository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -19,6 +23,8 @@ import java.util.List;
 public class MultaService {
 
     private final MultaRepository multaRepository;
+
+    private final VeiculoRepository veiculoRepository;
     private final MultaMapper multaMapper;
 
 
@@ -33,17 +39,32 @@ public class MultaService {
     public MultaResponse buscarPorId(Long id){
 
         Multa multa = multaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Erro: Multa não localizada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Multa não localizada com ID:" + id));
 
         return multaMapper.toResponse(multa);
 
     }
 
-    public MultaResponse criarMulta(MultaRequest multaRequest){
+    public MultaResponse criarMulta(MultaRequest request){
 
-          Multa multa = multaMapper.toEntity(multaRequest);
+          LocalDate hoje = LocalDate.now();
+
+          if (request.dataInfracao().isAfter(hoje)){
+              throw new IllegalArgumentException("Erro: Data da infração não pode ser no futuro");
+          }
+
+          Veiculo veiculo = veiculoRepository.findById(request.veiculoId())
+                  .orElseThrow(() -> new ResourceNotFoundException("Erro: Não foi localizado veículo com ID:" + request.veiculoId()));
+
+          if (veiculo.getStatus() == StatusVeiculo.INATIVO){
+              throw new IllegalStateException("Erro: Não é possivel criar uma multa para um veículo inativo");
+          }
+
+          Multa multa = multaMapper.toEntity(request);
+          multa.setVeiculo(veiculo);
 
           Multa multaCriada = multaRepository.save(multa);
+
 
           return multaMapper.toResponse(multaCriada);
 
@@ -52,10 +73,14 @@ public class MultaService {
     public MultaResponse pagarMulta(Long id, PagarMultaRequest request){
 
         Multa multa = multaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Erro: Multa não localizada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro: Multa não localizada com ID:" + id));
 
         if (multa.getStatus() == StatusMulta.PAGA){
             throw new IllegalStateException("Erro: A multa já está paga");
+        }
+
+        if (multa.getStatus() == StatusMulta.CANCELADA){
+            throw new IllegalStateException("Erro: Não é possível pagar uma multa cancelada");
         }
 
         if (request.valor() == null || request.valor().compareTo(multa.getCusto()) !=  0){
@@ -72,6 +97,10 @@ public class MultaService {
     }
 
     public List<MultaResponse> buscarMultaPorPlaca(String placa){
+
+         if(!veiculoRepository.existsByPlaca(placa)){
+             throw new ResourceNotFoundException("Erro: Não foi localizado veículo com essa placa: " + placa);
+         }
 
          return multaRepository.findByVeiculoPlaca(placa).stream()
                  .map(multaMapper::toResponse)

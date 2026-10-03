@@ -37,23 +37,6 @@ public class MultaController {
 
     }
 
-    @PostMapping
-    public ResponseEntity<MultaResponse> registrarMulta(@Valid @RequestBody MultaRequest request){
-
-        MultaResponse response = multaService.criarMulta(request);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-
-    }
-
-    @PutMapping("/{id}/pagar")
-    public MultaResponse pagarMulta(@PathVariable Long id,
-                                    @Valid @RequestBody PagarMultaRequest request){
-
-        return multaService.pagarMulta(id, request);
-
-    }
-
     @GetMapping("/placa/{placa}")
     public List<MultaResponse> buscarPorPlaca(@PathVariable String placa){
 
@@ -71,6 +54,25 @@ public class MultaController {
     }
 
 
+
+    @PostMapping
+    public ResponseEntity<MultaResponse> registrarMulta(@Valid @RequestBody MultaRequest request){
+
+        MultaResponse response = multaService.criarMulta(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+    }
+
+
+
+    @PatchMapping("/{id}/pagar")
+    public MultaResponse pagarMulta(@PathVariable Long id,
+                                    @Valid @RequestBody PagarMultaRequest request){
+
+        return multaService.pagarMulta(id, request);
+
+    }
 
 
 }

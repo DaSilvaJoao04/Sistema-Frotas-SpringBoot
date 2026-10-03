@@ -23,9 +23,8 @@ public record MultaRequest(
         BigDecimal custo,
 
         @NotNull
-        LocalDate dataVencimento,
+        LocalDate dataVencimento
 
-        LocalDate dataPagamento
 
 
 
