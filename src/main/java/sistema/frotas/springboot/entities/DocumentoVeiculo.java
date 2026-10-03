@@ -25,7 +25,7 @@ public class DocumentoVeiculo {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private TipoDocumento tipo;
+    private TipoDocumento tipoDocumento;
 
     @Column
     private String numeroDocumento;

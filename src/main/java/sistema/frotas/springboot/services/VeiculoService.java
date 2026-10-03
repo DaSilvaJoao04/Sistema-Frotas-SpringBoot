@@ -124,7 +124,7 @@ public class VeiculoService {
 
     public List<VeiculoResponse> buscarPorCombustivel(TipoCombustivel tipoCombustivel){
 
-        return  veiculoRepository.findByCombustivel(tipoCombustivel).stream()
+        return  veiculoRepository.findByTipoCombustivel(tipoCombustivel).stream()
                 .map(veiculoMapper::toResponse)
                 .toList();
 
@@ -149,7 +149,7 @@ public class VeiculoService {
 
 
     public List<VeiculoResponse> buscarPorStatusECombustivel (StatusVeiculo statusVeiculo, TipoCombustivel tipoCombustivel){
-        return  veiculoRepository.findByStatusAndCombustivel(statusVeiculo, tipoCombustivel).stream()
+        return  veiculoRepository.findByStatusAndTipoCombustivel(statusVeiculo, tipoCombustivel).stream()
                 .map(veiculoMapper::toResponse)
                 .toList();
 

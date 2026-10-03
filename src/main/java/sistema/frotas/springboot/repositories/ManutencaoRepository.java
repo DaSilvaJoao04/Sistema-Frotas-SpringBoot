@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ManutencaoRepository extends JpaRepository<Manutencao, Long> {
 
-    List<Manutencao> findByPlaca(String placa);
+    List<Manutencao> findByVeiculoPlaca(String placa);
     List<Manutencao> findByStatus(StatusManutencao statusManutencao);
-    List<Manutencao> findByPlacaAndTipo(String placa, TipoManutencao tipoManutencao);
+    List<Manutencao> findByVeiculoPlacaAndTipoManutencao(String placa, TipoManutencao tipoManutencao);
 }

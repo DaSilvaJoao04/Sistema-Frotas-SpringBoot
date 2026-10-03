@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface MotoristaRepository extends JpaRepository <Motorista, Long>{
 
-    List<Motorista> findMotoristaByStatus(StatusMotorista statusMotorista);
+    List<Motorista> findMotoristaByStatus(StatusMotorista status);
     List<Motorista> findMotoristaByCategoria(CategoriaCNH categoria);
-    Boolean existsByCNH (String numeroCNH);
-    Boolean existsByCPF (String cpf);
+    Boolean existsByNumeroCNH (String numeroCNH);
+    Boolean existsByCpf (String cpf);
 }

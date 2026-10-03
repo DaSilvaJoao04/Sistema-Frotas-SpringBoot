@@ -27,7 +27,7 @@ public class Manutencao {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TipoManutencao tipo;
+    private TipoManutencao tipoManutencao;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

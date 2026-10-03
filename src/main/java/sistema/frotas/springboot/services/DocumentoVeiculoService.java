@@ -88,9 +88,9 @@ public class DocumentoVeiculoService {
 
     }
 
-    public List<DocumentoVeiculoResponse> buscarPorTipo(TipoDocumento tipo){
+    public List<DocumentoVeiculoResponse> buscarPorTipo(TipoDocumento tipoDocumento){
 
-        return documentoVeiculoRepository.findByTipoDocumento(tipo).stream()
+        return documentoVeiculoRepository.findByTipoDocumento(tipoDocumento).stream()
                 .map(documentoVeiculoMapper::toResponse)
                 .toList();
 

@@ -37,7 +37,7 @@ public class ManutencaoController {
     @GetMapping("/placa/{placa}")
     public List<ManutencaoResponse> buscarPorPlaca(@PathVariable String placa){
 
-        return manutencaoService.buscarPorPlaca(placa);
+        return manutencaoService.buscarPorVeiculoPlaca(placa);
     }
 
     @GetMapping("/status/{statusManutencao}")
@@ -50,7 +50,7 @@ public class ManutencaoController {
     public List<ManutencaoResponse> buscarPorPlacaETipo(@PathVariable String placa,
                                                         @PathVariable TipoManutencao tipoManutencao){
 
-        return manutencaoService.buscarPorPlacaETipo(placa, tipoManutencao);
+        return manutencaoService.buscarPorVeiculoPlacaETipoManutencao(placa, tipoManutencao);
     }
 
 

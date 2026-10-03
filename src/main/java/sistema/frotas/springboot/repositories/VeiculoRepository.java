@@ -13,10 +13,10 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
     Optional<Veiculo> findByPlaca(String placa);
     Boolean existsByPlaca(String placa);
     List<Veiculo> findByStatus(StatusVeiculo statusVeiculo);
-    List<Veiculo> findByCombustivel(TipoCombustivel combustivel);
+    List<Veiculo> findByTipoCombustivel(TipoCombustivel tipoCombustivel);
     List<Veiculo> findByMarcaContainingIgnoreCase(String marca);
     List<Veiculo> findByAnoFabricacao(Integer ano);
-    List<Veiculo> findByStatusAndCombustivel(StatusVeiculo statusVeiculo, TipoCombustivel combustivel);
+    List<Veiculo> findByStatusAndTipoCombustivel(StatusVeiculo statusVeiculo, TipoCombustivel tipoCombustivel);
     List<Veiculo> findByAnoFabricacaoGreaterThanEqual(Integer ano);
     List<Veiculo> findByQuilometragemAtualGreaterThan(Long quilometragem);
 }

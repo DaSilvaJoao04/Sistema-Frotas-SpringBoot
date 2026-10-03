@@ -47,13 +47,13 @@ public class ManutencaoService {
     }
 
 
-    public List<ManutencaoResponse> buscarPorPlaca(String placa){
+    public List<ManutencaoResponse> buscarPorVeiculoPlaca(String placa){
 
         if (!veiculoRepository.existsByPlaca(placa)){
             throw new ResourceNotFoundException("Erro: Não há veículo registrado com essa placa: " + placa);
         }
 
-        return  manutencaoRepository.findByPlaca(placa).stream()
+        return  manutencaoRepository.findByVeiculoPlaca(placa).stream()
                 .map(manutencaoMapper::toResponse)
                 .toList();
 
@@ -174,13 +174,13 @@ public class ManutencaoService {
     }
 
 
-    public List<ManutencaoResponse> buscarPorPlacaETipo(String placa, TipoManutencao tipoManutencao){
+    public List<ManutencaoResponse> buscarPorVeiculoPlacaETipoManutencao(String placa, TipoManutencao tipoManutencao){
 
         if (!veiculoRepository.existsByPlaca(placa)){
             throw new ResourceNotFoundException("Erro: Não há veículo registrado com essa placa: " + placa);
         }
 
-        return manutencaoRepository.findByPlacaAndTipo(placa, tipoManutencao).stream()
+        return manutencaoRepository.findByVeiculoPlacaAndTipoManutencao(placa, tipoManutencao).stream()
                 .map(manutencaoMapper::toResponse)
                 .toList();
 

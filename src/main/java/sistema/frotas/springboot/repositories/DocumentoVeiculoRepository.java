@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface DocumentoVeiculoRepository extends JpaRepository<DocumentoVeiculo, Long> {
 
     Optional<DocumentoVeiculo> findByNumeroDocumento(String numeroDocumento);
-    List<DocumentoVeiculo> findByTipoDocumento(TipoDocumento tipo);
+    List<DocumentoVeiculo> findByTipoDocumento(TipoDocumento tipoDocumento);
     List<DocumentoVeiculo> findByVeiculoId(Long veiculoId);
 }

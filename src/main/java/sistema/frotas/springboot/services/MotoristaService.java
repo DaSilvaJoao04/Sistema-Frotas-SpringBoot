@@ -41,11 +41,11 @@ public class MotoristaService {
 
     public MotoristaResponse criarMotorista(MotoristaRequest request){
 
-        if (motoristaRepository.existsByCPF(request.cpf())){
+        if (motoristaRepository.existsByCpf(request.cpf())){
             throw new IllegalArgumentException("Erro: Esse CPF já está vinculado há um motorista");
         }
 
-        if (motoristaRepository.existsByCNH(request.numeroCNH())){
+        if (motoristaRepository.existsByNumeroCNH(request.numeroCNH())){
             throw new IllegalArgumentException("Erro: Essa CNH já está vinculada há um motorista");
         }
 
@@ -117,9 +117,9 @@ public class MotoristaService {
     }
 
 
-    public List<MotoristaResponse> buscarMotoristaPorStatus (StatusMotorista statusMotorista){
+    public List<MotoristaResponse> buscarMotoristaPorStatus (StatusMotorista status){
 
-        return motoristaRepository.findMotoristaByStatus(statusMotorista).stream()
+        return motoristaRepository.findMotoristaByStatus(status).stream()
                 .map(motoristaMapper::toResponse)
                 .toList();
 
