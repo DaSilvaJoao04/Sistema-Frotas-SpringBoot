@@ -11,8 +11,9 @@ import sistema.frotas.springboot.enums.TipoDocumento;
 import sistema.frotas.springboot.exceptions.ResourceNotFoundException;
 import sistema.frotas.springboot.mapper.DocumentoVeiculoMapper;
 import sistema.frotas.springboot.repositories.DocumentoVeiculoRepository;
+import sistema.frotas.springboot.repositories.VeiculoRepository;
 
-import java.time.LocalDate;
+
 import java.util.List;
 
 @Service
@@ -20,6 +21,8 @@ import java.util.List;
 public class DocumentoVeiculoService {
 
     private final DocumentoVeiculoRepository documentoVeiculoRepository;
+    private final VeiculoRepository veiculoRepository;
+
     private final DocumentoVeiculoMapper documentoVeiculoMapper;
 
 
@@ -61,6 +64,9 @@ public class DocumentoVeiculoService {
         DocumentoVeiculo documentoVeiculo = documentoVeiculoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Erro: Documento não localizado"));
 
+        if (request.dataValidade().isBefore(documentoVeiculo.getDataEmissao())){
+            throw new IllegalArgumentException("Erro: A data de validade não pode ser anterior à data de emissão");
+        }
 
         documentoVeiculo.setDataValidade(request.dataValidade());
 
@@ -91,6 +97,10 @@ public class DocumentoVeiculoService {
     }
 
     public List<DocumentoVeiculoResponse> buscarPorVeiculo(Long veiculoId) {
+
+        if (!veiculoRepository.existsById(veiculoId)){
+            throw new ResourceNotFoundException("Erro: Não foi localizado veículo com ID:" + veiculoId);
+        }
 
         return documentoVeiculoRepository.findByVeiculoId(veiculoId).stream()
                 .map(documentoVeiculoMapper::toResponse)

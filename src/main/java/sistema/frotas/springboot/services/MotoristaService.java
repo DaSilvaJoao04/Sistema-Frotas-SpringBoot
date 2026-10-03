@@ -57,7 +57,7 @@ public class MotoristaService {
     }
 
 
-    public MotoristaResponse atualizarMotorista(Long id, MotoristaRequest motoristaRequest){
+    public MotoristaResponse atualizarMotorista(Long id, MotoristaRequest request){
 
         Motorista motorista = motoristaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Erro: Motorista não encontrado com ID: " + id));
@@ -67,10 +67,10 @@ public class MotoristaService {
 
         }
 
-        motorista.setNomeCompleto(motoristaRequest.nomeCompleto());
-        motorista.setCategoria(motoristaRequest.categoria());
-        motorista.setDataValidadeCNH(motoristaRequest.dataValidadeCNH());
-        motorista.setTelefone(motoristaRequest.telefone());
+        motorista.setNomeCompleto(request.nomeCompleto());
+        motorista.setCategoria(request.categoria());
+        motorista.setDataValidadeCNH(request.dataValidadeCNH());
+        motorista.setTelefone(request.telefone());
 
         Motorista motoristaAtualizado = motoristaRepository.save(motorista);
 

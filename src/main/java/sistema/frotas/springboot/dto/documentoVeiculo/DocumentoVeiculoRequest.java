@@ -18,7 +18,7 @@ public record DocumentoVeiculoRequest(
         String numeroDocumento,
 
         @NotNull
-        @Past
+        @PastOrPresent
         LocalDate dataEmissao,
 
         @NotNull

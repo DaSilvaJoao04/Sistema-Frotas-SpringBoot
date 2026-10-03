@@ -25,22 +25,7 @@ public class DocumentoVeiculoController {
     @GetMapping
     public List<DocumentoVeiculoResponse> listarDocumentos(){
         return documentoVeiculoService.buscarTodosDocumentos();
-    }
 
-    @PostMapping
-    public ResponseEntity<DocumentoVeiculoResponse> registrarDocumento(
-            @Valid @RequestBody DocumentoVeiculoRequest request){
-
-        DocumentoVeiculoResponse response = documentoVeiculoService.criarDocumento(request);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
-    @PatchMapping("/{id}/atualizar")
-    public DocumentoVeiculoResponse atualizarDocumento(@PathVariable Long id,
-                                                       @Valid @RequestBody AtualizarDocumentoRequest request){
-
-        return documentoVeiculoService.atualizarDocumento(id, request);
     }
 
 
@@ -67,5 +52,26 @@ public class DocumentoVeiculoController {
         return documentoVeiculoService.buscarPorVeiculo(veiculoId);
 
     }
+
+
+
+    @PostMapping
+    public ResponseEntity<DocumentoVeiculoResponse> registrarDocumento(
+            @Valid @RequestBody DocumentoVeiculoRequest request){
+
+        DocumentoVeiculoResponse response = documentoVeiculoService.criarDocumento(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+
+
+    @PatchMapping("/{id}/atualizar")
+    public DocumentoVeiculoResponse atualizarDocumento(@PathVariable Long id,
+                                                       @Valid @RequestBody AtualizarDocumentoRequest request){
+
+        return documentoVeiculoService.atualizarDocumento(id, request);
+    }
+
 
 }

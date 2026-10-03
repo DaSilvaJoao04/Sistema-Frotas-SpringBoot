@@ -146,6 +146,7 @@ public class ManutencaoService {
 
     }
 
+    @Transactional
     public ManutencaoResponse cancelarManutencao (Long id){
 
         Manutencao manutencao = manutencaoRepository.findById(id)
@@ -165,6 +166,8 @@ public class ManutencaoService {
         veiculo.setStatus(StatusVeiculo.DISPONIVEL);
 
         Manutencao manutencaoCancelada = manutencaoRepository.save(manutencao);
+
+        veiculoRepository.save(veiculo);
 
         return  manutencaoMapper.toResponse(manutencaoCancelada);
 
