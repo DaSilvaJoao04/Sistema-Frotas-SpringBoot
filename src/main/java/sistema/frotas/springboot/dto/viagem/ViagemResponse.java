@@ -8,8 +8,8 @@ import java.time.LocalDate;
 public record ViagemResponse(
 
         Long id,
-        Veiculo veiculoId,
-        Motorista motoristaId,
+        Long veiculoId,
+        Long motoristaId,
         LocalDate dataSaida,
         LocalDate dataChegada,
         String origem,

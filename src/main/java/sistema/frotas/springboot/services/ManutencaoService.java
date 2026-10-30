@@ -2,6 +2,7 @@ package sistema.frotas.springboot.services;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import sistema.frotas.springboot.dto.manutencao.FinalizarManutencaoRequest;
 import sistema.frotas.springboot.dto.manutencao.ManutencaoRequest;
@@ -31,7 +32,7 @@ public class ManutencaoService {
 
     public List<ManutencaoResponse> buscarTodasManutencoes(){
 
-         return  manutencaoRepository.findAll().stream()
+         return  manutencaoRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
                  .map(manutencaoMapper::toResponse)
                  .toList();
 

@@ -18,8 +18,6 @@ public record ViagemRequest(
         @NotNull
         LocalDate dataSaida,
 
-        LocalDate dataChegada,
-
         @NotBlank
         String origem,
 
@@ -28,11 +26,9 @@ public record ViagemRequest(
 
         @NotNull
         @PositiveOrZero
-        Long kmInicial,
+        Long kmInicial
 
-        @NotNull
-        @Positive
-        Long kmFinal
+
 )
 
 {}

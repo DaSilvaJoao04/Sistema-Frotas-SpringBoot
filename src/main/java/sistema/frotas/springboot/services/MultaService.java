@@ -1,6 +1,7 @@
 package sistema.frotas.springboot.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import sistema.frotas.springboot.dto.multa.MultaRequest;
 import sistema.frotas.springboot.dto.multa.MultaResponse;
@@ -30,7 +31,7 @@ public class MultaService {
 
     public List<MultaResponse> buscarTodasMultas(){
 
-        return multaRepository.findAll().stream()
+        return multaRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
                 .map(multaMapper::toResponse)
                 .toList();
 

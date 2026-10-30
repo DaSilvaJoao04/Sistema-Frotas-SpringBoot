@@ -2,6 +2,7 @@ package sistema.frotas.springboot.services;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import sistema.frotas.springboot.dto.veiculo.VeiculoAtualizacaoRequest;
 import sistema.frotas.springboot.dto.veiculo.VeiculoRequest;
@@ -27,7 +28,7 @@ public class VeiculoService {
 
     public List<VeiculoResponse> findAll () {
 
-        return veiculoRepository.findAll().stream()
+        return veiculoRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
                    .map(veiculoMapper::toResponse)
                    .toList();
     }

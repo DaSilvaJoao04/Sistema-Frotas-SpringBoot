@@ -2,6 +2,7 @@ package sistema.frotas.springboot.services;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import sistema.frotas.springboot.dto.abastecimento.AbastecimentoRequest;
 import sistema.frotas.springboot.dto.abastecimento.AbastecimentoResponse;
@@ -29,7 +30,7 @@ public class AbastecimentoService {
 
     public List<AbastecimentoResponse> buscarTodosAbastecimentos(){
 
-        return abastecimentoRepository.findAll().stream()
+        return abastecimentoRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
                 .map(abastecimentoMapper::toResponse)
                 .toList();
 

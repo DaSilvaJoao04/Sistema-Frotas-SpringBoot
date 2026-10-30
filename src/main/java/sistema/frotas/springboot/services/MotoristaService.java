@@ -1,6 +1,7 @@
 package sistema.frotas.springboot.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import sistema.frotas.springboot.dto.motorista.MotoristaRequest;
 import sistema.frotas.springboot.dto.motorista.MotoristaResponse;
@@ -23,7 +24,7 @@ public class MotoristaService {
 
     public List<MotoristaResponse> buscarTodosMotoristas (){
 
-        return motoristaRepository.findAll().stream()
+        return motoristaRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
                 .map(motoristaMapper::toResponse)
                 .toList();
 

@@ -3,6 +3,7 @@ package sistema.frotas.springboot.services;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import sistema.frotas.springboot.dto.viagem.FinalizarViagemRequest;
 import sistema.frotas.springboot.dto.viagem.ViagemRequest;
@@ -71,7 +72,7 @@ public class ViagemService {
 
     public List<ViagemResponse> buscarTodasViagens(){
 
-        return viagemRepository.findAll().stream()
+        return viagemRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
                 .map(viagemMapper::toResponse)
                 .toList();
 
